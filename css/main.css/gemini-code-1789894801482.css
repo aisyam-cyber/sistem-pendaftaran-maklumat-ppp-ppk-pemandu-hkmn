@@ -1,0 +1,131 @@
+:root {
+    --kkm-navy: #0f172a;
+    --kkm-blue-accent: #1e3a8a;
+    --kkm-gold: #d97706;
+    --kkm-bg: #f8fafc;
+    --kkm-card-bg: #ffffff;
+    --kkm-text-main: #334155;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--kkm-bg);
+    color: var(--kkm-text-main);
+    margin: 0;
+    padding: 0;
+}
+
+/* SIDEBAR STYLES */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--kkm-navy);
+    color: #ffffff;
+    padding: 20px 15px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.brand-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    font-size: 2rem;
+    color: var(--kkm-gold);
+}
+
+.brand-title h5 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+}
+
+.brand-title small {
+    color: #94a3b8;
+    font-size: 0.75rem;
+}
+
+.nav-divider {
+    border-color: #334155;
+    margin: 15px 0;
+}
+
+.sidebar .nav-link {
+    color: #cbd5e1;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background-color: var(--kkm-blue-accent);
+    color: #ffffff;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    margin-left: 260px;
+    min-height: 100vh;
+}
+
+/* TOP HEADER */
+.top-header {
+    background-color: var(--kkm-navy);
+    padding: 15px 30px;
+    border-bottom: 2px solid var(--kkm-gold);
+}
+
+.text-gold {
+    color: var(--kkm-gold) !important;
+}
+
+.bg-gold {
+    background-color: var(--kkm-gold) !important;
+}
+
+.text-navy {
+    color: var(--kkm-navy);
+}
+
+.btn-kkm-primary {
+    background-color: var(--kkm-blue-accent);
+    color: #ffffff;
+    font-weight: 500;
+    border: none;
+}
+
+.btn-kkm-primary:hover {
+    background-color: #1d4ed8;
+    color: #ffffff;
+}
+
+/* CARD CUSTOM */
+.card-custom {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    background-color: #ffffff;
+}
+
+.table-dark-kkm {
+    background-color: var(--kkm-navy) !important;
+    color: #ffffff !important;
+}
+
+.table-dark-kkm th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
