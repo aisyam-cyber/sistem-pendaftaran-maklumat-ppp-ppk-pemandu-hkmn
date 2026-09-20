@@ -8,8 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts (Inter) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -19,68 +19,82 @@
     <!-- SIDEBAR NAVIGATION -->
     <div class="sidebar" id="sidebar">
         <div class="brand-header">
-            <i class="fa-solid => fa-hospital-user brand-icon"></i>
+            <div class="brand-logo">
+                <i class="fa-solid fa-hospital-user"></i>
+            </div>
             <div class="brand-title">
                 <h5>HOSPITAL KEMAMAN</h5>
                 <small>Unit Penyeliaan Intelligence</small>
             </div>
         </div>
-        <hr class="nav-divider">
+
+        <div class="nav-section-title">Menu Utama</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#"><i class="fa-solid fa-users"></i> <span>Induk Anggota</span></a>
+                <a class="nav-link active" href="#" id="menuInduk" onclick="tukarPaparanView('INDUK')">
+                    <i class="fa-solid fa-id-card"></i> <span>Induk Anggota</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-user-nurse"></i> <span>Data PPP</span></a>
+                <a class="nav-link" href="#" id="menuPPP" onclick="tukarPaparanView('PPP')">
+                    <i class="fa-solid fa-user-nurse"></i> <span>Data PPP</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-hands-holding-child"></i> <span>Data PPK</span></a>
+                <a class="nav-link" href="#" id="menuPPK" onclick="tukarPaparanView('PPK')">
+                    <i class="fa-solid fa-hands-holding-child"></i> <span>Data PPK</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-truck-medical"></i> <span>Data Pemandu</span></a>
+                <a class="nav-link" href="#" id="menuPemandu" onclick="tukarPaparanView('PEMANDU')">
+                    <i class="fa-solid fa-truck-medical"></i> <span>Data Pemandu</span>
+                </a>
             </li>
+        </ul>
+
+        <div class="nav-section-title">Analisis & Laporan</div>
+        <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-chart-line"></i> <span>Papan Pemuka (Dashboard)</span></a>
+                <a class="nav-link" href="#" id="menuDashboard" onclick="tukarPaparanView('DASHBOARD')">
+                    <i class="fa-solid fa-chart-pie"></i> <span>Dashboard Pengarah</span>
+                </a>
             </li>
         </ul>
     </div>
 
     <!-- MAIN CONTENT AREA -->
     <div class="main-content">
-        <!-- TOP HEADER -->
         <header class="top-header d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-sm btn-outline-light d-md-none" id="btnToggleSidebar">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <h6 class="m-0 text-gold"><i class="fa-solid fa-shield-halved"></i> Unit Penyeliaan Hospital Kemaman</h6>
+                <button class="btn btn-light border d-lg-none" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+                <h6 class="m-0 fw-bold text-navy"><i class="fa-solid fa-shield-halved text-warning me-2"></i> Sistem Pengurusan & Analisis Data Berpusat</h6>
             </div>
-            <div class="user-profile d-flex align-items-center gap-3">
-                <span class="badge bg-gold text-dark" id="userRoleBadge">SUPER_ADMIN</span>
-                <span class="text-white small" id="userNameDisplay">Penyelia Utama</span>
+            <div class="d-flex align-items-center gap-3">
+                <span class="badge-role"><i class="fa-solid fa-user-shield me-1"></i> SUPER_ADMIN</span>
+                <span class="fw-bold small text-dark">Penyelia Utama</span>
             </div>
         </header>
 
-        <!-- DASHBOARD CONTAINER -->
-        <div class="container-fluid py-4">
-            <!-- HEADING & ACTION BAR -->
+        <div class="container-fluid p-4">
+            <!-- AMARAN LESEN PEMANDU -->
+            <div id="bekasAmaranLesen" class="d-none"></div>
+
+            <!-- TITLE & ACTION BAR -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h4 class="fw-bold text-navy mb-1">Pengurusan Induk Anggota</h4>
-                    <p class="text-muted small m-0">Sistem Pengumpulan & Analisis Data Berpusat (One Staff = One Master Record)</p>
+                    <h3 class="fw-extrabold text-navy m-0" id="tajukModulUtama">Pengurusan Induk Anggota</h3>
+                    <p class="text-muted small m-0">Prinsip: One Staff = One Master Record (Hospital Kemaman)</p>
                 </div>
-                <button class="btn btn-kkm-primary" onclick="bukaModalDaftarAnggota()">
-                    <i class="fa-solid fa-user-plus me-2"></i> Tambah Anggota Baharu
-                </button>
+                <button class="btn btn-kkm-primary" onclick="bukaModalBorang()"><i class="fa-solid fa-plus-circle me-2"></i> Tambah Anggota Baharu</button>
             </div>
 
-            <!-- SEARCH & FILTER BAR -->
+            <!-- SEARCH & FILTERS -->
             <div class="card card-custom p-3 mb-4">
                 <div class="row g-3">
                     <div class="col-md-5">
                         <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
-                            <input type="text" id="inputCarianGlobal" class="form-control border-start-0" placeholder="Cari ID Anggota, Nama, No. KP atau Unit..." onkeyup="tapisAnggota()">
+                            <span class="input-group-text bg-white border-end-0"><i class="fa-solid fa-search text-muted"></i></span>
+                            <input type="text" id="inputCarianGlobal" class="form-control border-start-0" placeholder="Cari Nama, ID, No. KP atau Unit..." onkeyup="tapisAnggota()">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -97,45 +111,40 @@
                             <option value="TRANSFERRED">Status: TRANSFERRED (Bertukar)</option>
                             <option value="RETIRED">Status: RETIRED (Bersara)</option>
                             <option value="ARCHIVED">Status: ARCHIVED (Diarkibkan)</option>
-                            <option value="">-- Semua Status --</option>
                         </select>
                     </div>
                     <div class="col-md-1 d-grid">
-                        <button class="btn btn-outline-secondary" onclick="muatNaiikAnggota()" title="Refresh Data"><i class="fa-solid fa-rotate"></i></button>
+                        <button class="btn btn-light border" onclick="muatNaiikAnggota()"><i class="fa-solid fa-rotate"></i></button>
                     </div>
                 </div>
             </div>
 
-            <!-- ANGGOTA TABLE CARD -->
-            <div class="card card-custom">
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0" id="jadualAnggota">
-                            <thead class="table-dark-kkm">
-                                <tr>
-                                    <th>ID Anggota</th>
-                                    <th>Nama Penuh / No. KP</th>
-                                    <th>Skim & Gred</th>
-                                    <th>Jabatan / Unit</th>
-                                    <th>Status</th>
-                                    <th class="text-center">Tindakan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbodyAnggota">
-                                <tr>
-                                    <td colspan="6" class="text-center py-4 text-muted">
-                                        <i class="fa-solid fa-spinner fa-spin me-2"></i> Memuatkan data anggota...
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <!-- TABLE CONTAINER -->
+            <div class="card card-custom overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table table-custom table-hover align-middle mb-0" id="jadualAnggota">
+                        <thead>
+                            <tr>
+                                <th>ID Anggota</th>
+                                <th>Nama Penuh / No. KP</th>
+                                <th>Skim & Gred</th>
+                                <th>Jabatan / Unit</th>
+                                <th>Status</th>
+                                <th class="text-center">Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyAnggota">
+                            <tr>
+                                <td colspan="6" class="text-center py-5 text-muted"><i class="fa-solid fa-spinner fa-spin me-2"></i> Memuatkan pangkalan data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL FORM DAFTAR / KEMASKINI ANGGOTA -->
+    <!-- MODAL BORANG INDUK -->
     <div class="modal fade" id="modalBorangAnggota" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -187,10 +196,7 @@
                                 <label class="form-label fw-semibold">Email Rasmi</label>
                                 <input type="email" id="formEmail" class="form-control" placeholder="nama@moh.gov.my">
                             </div>
-                            
-                            <!-- DYNAMIC FIELDS CONTAINER (AUTO RENDERED FROM FIELD_CONFIG) -->
                             <div class="col-12" id="bekasMedanDinamik"></div>
-
                         </div>
                     </form>
                 </div>
@@ -202,7 +208,146 @@
         </div>
     </div>
 
-    <!-- MODAL ARCHIVE / TUKAR KELUAR -->
+    <!-- MODAL PROFIL PPP -->
+    <div class="modal fade" id="modalProfilPPP" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-navy text-white">
+                    <h5 class="modal-title"><i class="fa-solid fa-user-nurse me-2"></i> Profil Khusus PPP</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="pppIDAnggota">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nombor APC</label>
+                            <input type="text" id="pppNoAPC" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Tahun APC</label>
+                            <input type="number" id="pppTahunAPC" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Status Credentialing</label>
+                            <select id="pppCredentialing" class="form-select">
+                                <option value="LULUS">LULUS</option>
+                                <option value="DALAM_PROSES">DALAM PROSES</option>
+                                <option value="BELUM_MEMOHON">BELUM MEMOHON</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Status Privileging</label>
+                            <select id="pppPrivileging" class="form-select">
+                                <option value="LULUS">LULUS</option>
+                                <option value="DALAM_PROSES">DALAM PROSES</option>
+                                <option value="BELUM_MEMOHON">BELUM MEMOHON</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Pos Basik / Pengkhususan</label>
+                            <input type="text" id="pppPosBasik" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Fungsi Klinikal</label>
+                            <input type="text" id="pppFungsiKlinikal" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-kkm-primary" onclick="simpanProfilPPP()">Simpan Profil PPP</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PROFIL PPK -->
+    <div class="modal fade" id="modalProfilPPK" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-navy text-white">
+                    <h5 class="modal-title"><i class="fa-solid fa-hands-holding-child me-2"></i> Profil Khusus PPK</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="ppkIDAnggota">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Bidang Tugas Utama</label>
+                            <input type="text" id="ppkTugasUtama" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Kemahiran Khas</label>
+                            <input type="text" id="ppkKemahiran" class="form-control">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label fw-semibold">Status Penilaian</label>
+                            <select id="ppkStatusPenilaian" class="form-select">
+                                <option value="DINILAI">DINILAI / COMPETENT</option>
+                                <option value="BELUM_DINILAI">BELUM DINILAI</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-kkm-primary" onclick="simpanProfilPPK()">Simpan Profil PPK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PROFIL PEMANDU -->
+    <div class="modal fade" id="modalProfilDriver" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-navy text-white">
+                    <h5 class="modal-title"><i class="fa-solid fa-truck-medical me-2"></i> Profil Khusus Pemandu Kenderaan</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="drvIDAnggota">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Kelas Lesen Memandu</label>
+                            <input type="text" id="drvKelasLesen" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Tarikh Tamat Lesen Memandu</label>
+                            <input type="date" id="drvTarikhTamat" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Status GDL</label>
+                            <select id="drvStatusGDL" class="form-select">
+                                <option value="ADA">ADA</option>
+                                <option value="TIADA">TIADA</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Kebenaran Memandu Ambulans</label>
+                            <select id="drvAmbulans" class="form-select">
+                                <option value="YA">YA</option>
+                                <option value="TIDAK">TIDAK</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Kebenaran Memandu Bas</label>
+                            <select id="drvBas" class="form-select">
+                                <option value="YA">YA</option>
+                                <option value="TIDAK">TIDAK</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-kkm-primary" onclick="simpanProfilPemandu()">Simpan Profil Pemandu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ARCHIVE -->
     <div class="modal fade" id="modalArchive" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -211,14 +356,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="small text-muted">Rekod anggota **TIDAK AKAN DIPADAM**, sebaliknya disimpan untuk sejarawan rekod.</p>
                     <input type="hidden" id="archiveIDAnggota">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Status Baharu <span class="text-danger">*</span></label>
                         <select id="archiveStatusBaharu" class="form-select" required>
                             <option value="TRANSFERRED">TRANSFERRED (Bertukar Keluar)</option>
                             <option value="RETIRED">RETIRED (Bersara)</option>
-                            <option value="INACTIVE">INACTIVE (Tidak Aktif / Cuti Panjang)</option>
+                            <option value="INACTIVE">INACTIVE (Tidak Aktif)</option>
                             <option value="ARCHIVED">ARCHIVED (Diarkibkan)</option>
                         </select>
                     </div>
@@ -228,11 +372,11 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Tempat Bertukar (Jika Pertukaran)</label>
-                        <input type="text" id="archiveTempatBertukar" class="form-control" placeholder="Contoh: Hospital Sultanah Nur Zahirah">
+                        <input type="text" id="archiveTempatBertukar" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Sebab Pertukaran / Status <span class="text-danger">*</span></label>
-                        <textarea id="archiveSebab" class="form-control" rows="3" placeholder="Sebab wajib dinyatakan secara spesifik..." required></textarea>
+                        <textarea id="archiveSebab" class="form-control" rows="3" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -243,41 +387,14 @@
         </div>
     </div>
 
-    <!-- MODAL PERMANENT DELETE (ADMIN ONLY) -->
-    <div class="modal fade" id="modalPermanentDelete" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-danger">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title"><i class="fa-solid fa-triangle-exclamation me-2"></i> Pemadaman Rekod Fizikal (Permanently Delete)</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger mb-3" role="alert">
-                        <strong>AMARAN:</strong> Tindakan ini tidak boleh dibuat asal (Undone). Hanya untuk rekod ujian/duplikasi.
-                    </div>
-                    <p>Adakah anda pasti mahu memadam rekod anggota berikut secara kekal?</p>
-                    <div class="p-3 bg-light rounded border mb-3">
-                        <strong class="d-block" id="deleteIDDisplay">ID: -</strong>
-                        <span id="deleteNamaDisplay">Nama: -</span>
-                    </div>
-                    <input type="hidden" id="deleteIDAnggota">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Sebab Pemadaman Kekal <span class="text-danger">*</span></label>
-                        <textarea id="deleteSebab" class="form-control" rows="3" placeholder="Nyatakan sebab seperti 'Duplicate Record' atau 'Data Ujian'..." required></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-danger" onclick="sahkanPemadamanKekal()">Padam Kekal Sekarang</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap 5 & FontAwesome JS -->
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/api.js"></script>
     <script src="js/dynamicFields.js"></script>
     <script src="js/staff.js"></script>
+    <script src="js/ppp.js"></script>
+    <script src="js/ppk.js"></script>
+    <script src="js/driver.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
