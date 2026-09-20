@@ -1,14 +1,19 @@
 /**
  * HOSPITAL KEMAMAN WORKFORCE & SUPERVISION INTELLIGENCE SYSTEM
- * MODUL: reports.js (Logik Cetakan & Eksport Laporan Rasmi)
+ * MODUL: reports.js (Logik Penjanaan & Cetakan Laporan)
  */
 
 let dataLaporanTerkini = [];
 
 async function janaDanPaparkanLaporan() {
-    const skim = document.getElementById('laporanSkim').value;
-    const status = document.getElementById('laporanStatus').value;
-    const unit = document.getElementById('laporanUnit').value;
+    const bekas = document.getElementById('bekasJadualLaporan');
+    if (bekas) {
+        bekas.innerHTML = `<div class="text-center py-5 text-muted border rounded bg-white"><i class="fa-solid fa-spinner fa-spin me-2"></i> Menjana laporan rasmi...</div>`;
+    }
+
+    const skim = document.getElementById('laporanSkim')?.value || '';
+    const status = document.getElementById('laporanStatus')?.value || 'ACTIVE';
+    const unit = document.getElementById('laporanUnit')?.value || '';
 
     const respon = await panggilAPI({
         kaedah: 'POST',
@@ -19,10 +24,10 @@ async function janaDanPaparkanLaporan() {
     });
 
     if (respon.status === 'BERJAYA') {
-        dataLaporanTerkini = respon.data.senarai;
+        dataLaporanTerkini = respon.data.senarai || [];
         paparkanJadualLaporan(respon.data);
     } else {
-        alert(respon.mesej);
+        alert("Gagal menjana laporan: " + respon.mesej);
     }
 }
 
@@ -87,7 +92,7 @@ function cetakLaporan() {
 
 function eksportKeCSV() {
     if (dataLaporanTerkini.length === 0) {
-        alert("Tiada data untuk dieksport.");
+        alert("Tiada data untuk dieksport. Sila jana laporan terlebih dahulu.");
         return;
     }
 
