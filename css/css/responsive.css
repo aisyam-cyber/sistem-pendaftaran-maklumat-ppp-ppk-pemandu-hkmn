@@ -1,0 +1,17 @@
+@media (max-width: 768px) {
+    .sidebar {
+        margin-left: -260px;
+    }
+
+    .sidebar.active {
+        margin-left: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .top-header {
+        padding: 12px 15px;
+    }
+}
