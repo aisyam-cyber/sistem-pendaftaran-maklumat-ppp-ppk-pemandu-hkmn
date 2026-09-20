@@ -4,7 +4,7 @@
  */
 
 // Sila gantikan URL berikut dengan Google Apps Script Web App URL anda selepas deployment
-const GAS_API_URL = "https://script.google.com/a/macros/moh.gov.my/s/AKfycbzc2A_eEvbljtKunkxBVB_QDD95IGJvEqyUDv4XlpiT3udaXqLiN1Zl5SVDiqtdyiuI_g/exec";
+const GAS_API_URL = "https://script.google.com/a/macros/moh.gov.my/s/AKfycbz6fCOAkQ_m9AKrquGqupu9YFCG8QvmKPCZd9qADADHLpezT3xQalbQK-4_JTidBiOK/exec";
 
 async function panggilAPI(pilihan = {}) {
     try {
