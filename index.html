@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Kemaman - Workforce & Supervision Intelligence System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div class="sidebar" id="sidebar">
+        <div class="brand-header">
+            <i class="fa-solid => fa-hospital-user brand-icon"></i>
+            <div class="brand-title">
+                <h5>HOSPITAL KEMAMAN</h5>
+                <small>Unit Penyeliaan Intelligence</small>
+            </div>
+        </div>
+        <hr class="nav-divider">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="#"><i class="fa-solid fa-users"></i> <span>Induk Anggota</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa-solid fa-user-nurse"></i> <span>Data PPP</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa-solid fa-hands-holding-child"></i> <span>Data PPK</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa-solid fa-truck-medical"></i> <span>Data Pemandu</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa-solid fa-chart-line"></i> <span>Papan Pemuka (Dashboard)</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content">
+        <!-- TOP HEADER -->
+        <header class="top-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-sm btn-outline-light d-md-none" id="btnToggleSidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h6 class="m-0 text-gold"><i class="fa-solid fa-shield-halved"></i> Unit Penyeliaan Hospital Kemaman</h6>
+            </div>
+            <div class="user-profile d-flex align-items-center gap-3">
+                <span class="badge bg-gold text-dark" id="userRoleBadge">SUPER_ADMIN</span>
+                <span class="text-white small" id="userNameDisplay">Penyelia Utama</span>
+            </div>
+        </header>
+
+        <!-- DASHBOARD CONTAINER -->
+        <div class="container-fluid py-4">
+            <!-- HEADING & ACTION BAR -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h4 class="fw-bold text-navy mb-1">Pengurusan Induk Anggota</h4>
+                    <p class="text-muted small m-0">Sistem Pengumpulan & Analisis Data Berpusat (One Staff = One Master Record)</p>
+                </div>
+                <button class="btn btn-kkm-primary" onclick="bukaModalDaftarAnggota()">
+                    <i class="fa-solid fa-user-plus me-2"></i> Tambah Anggota Baharu
+                </button>
+            </div>
+
+            <!-- SEARCH & FILTER BAR -->
+            <div class="card card-custom p-3 mb-4">
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                            <input type="text" id="inputCarianGlobal" class="form-control border-start-0" placeholder="Cari ID Anggota, Nama, No. KP atau Unit..." onkeyup="tapisAnggota()">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="penapisSkim" class="form-select" onchange="tapisAnggota()">
+                            <option value="">-- Semua Skim --</option>
+                            <option value="PPP">PPP (Penolong Pegawai Perubatan)</option>
+                            <option value="PPK">PPK (Pembantu Perawatan Kesihatan)</option>
+                            <option value="PEMANDU">PEMANDU (Pemandu Kenderaan)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="penapisStatus" class="form-select" onchange="tapisAnggota()">
+                            <option value="ACTIVE" selected>Status: ACTIVE (Aktif)</option>
+                            <option value="TRANSFERRED">Status: TRANSFERRED (Bertukar)</option>
+                            <option value="RETIRED">Status: RETIRED (Bersara)</option>
+                            <option value="ARCHIVED">Status: ARCHIVED (Diarkibkan)</option>
+                            <option value="">-- Semua Status --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1 d-grid">
+                        <button class="btn btn-outline-secondary" onclick="muatNaiikAnggota()" title="Refresh Data"><i class="fa-solid fa-rotate"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANGGOTA TABLE CARD -->
+            <div class="card card-custom">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="jadualAnggota">
+                            <thead class="table-dark-kkm">
+                                <tr>
+                                    <th>ID Anggota</th>
+                                    <th>Nama Penuh / No. KP</th>
+                                    <th>Skim & Gred</th>
+                                    <th>Jabatan / Unit</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyAnggota">
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-muted">
+                                        <i class="fa-solid fa-spinner fa-spin me-2"></i> Memuatkan data anggota...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FORM DAFTAR / KEMASKINI ANGGOTA -->
+    <div class="modal fade" id="modalBorangAnggota" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-navy text-white">
+                    <h5 class="modal-title" id="tajukModalAnggota"><i class="fa-solid fa-user-pen me-2"></i> Borang Induk Anggota</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formIndukAnggota">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">ID Anggota <span class="text-danger">*</span></label>
+                                <input type="text" id="formIDAnggota" class="form-control" placeholder="Contoh: PPP-0001" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">No. Kad Pengenalan <span class="text-danger">*</span></label>
+                                <input type="text" id="formNoKP" class="form-control" placeholder="12 Digit Tanpa Dash" maxlength="12" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Skim Perkhidmatan <span class="text-danger">*</span></label>
+                                <select id="formSkim" class="form-select" required>
+                                    <option value="">-- Pilih Skim --</option>
+                                    <option value="PPP">PPP</option>
+                                    <option value="PPK">PPK</option>
+                                    <option value="PEMANDU">PEMANDU</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label fw-semibold">Nama Penuh <span class="text-danger">*</span></label>
+                                <input type="text" id="formNamaPenuh" class="form-control" placeholder="Nama mengikut KP" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Gred Jawatan <span class="text-danger">*</span></label>
+                                <input type="text" id="formGred" class="form-control" placeholder="Contoh: U29 / H11" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Jabatan</label>
+                                <input type="text" id="formJabatan" class="form-control" placeholder="Contoh: Kecemasan & Trauma">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Unit Bertugas</label>
+                                <input type="text" id="formUnit" class="form-control" placeholder="Contoh: Zon Merah / Triage">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">No. Telefon Rasmi</label>
+                                <input type="text" id="formNoTel" class="form-control" placeholder="01X-XXXXXXX">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Email Rasmi</label>
+                                <input type="email" id="formEmail" class="form-control" placeholder="nama@moh.gov.my">
+                            </div>
+                            
+                            <!-- DYNAMIC FIELDS CONTAINER (AUTO RENDERED FROM FIELD_CONFIG) -->
+                            <div class="col-12" id="bekasMedanDinamik"></div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-kkm-primary" onclick="hantarBorangAnggota()">Simpan Rekod</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ARCHIVE / TUKAR KELUAR -->
+    <div class="modal fade" id="modalArchive" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title"><i class="fa-solid fa-box-archive me-2"></i> Tukar Status / Pengarkiban Anggota</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-muted">Rekod anggota **TIDAK AKAN DIPADAM**, sebaliknya disimpan untuk sejarawan rekod.</p>
+                    <input type="hidden" id="archiveIDAnggota">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Status Baharu <span class="text-danger">*</span></label>
+                        <select id="archiveStatusBaharu" class="form-select" required>
+                            <option value="TRANSFERRED">TRANSFERRED (Bertukar Keluar)</option>
+                            <option value="RETIRED">RETIRED (Bersara)</option>
+                            <option value="INACTIVE">INACTIVE (Tidak Aktif / Cuti Panjang)</option>
+                            <option value="ARCHIVED">ARCHIVED (Diarkibkan)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tarikh Berkuat Kuasa / Tarikh Keluar</label>
+                        <input type="date" id="archiveTarikhKeluar" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tempat Bertukar (Jika Pertukaran)</label>
+                        <input type="text" id="archiveTempatBertukar" class="form-control" placeholder="Contoh: Hospital Sultanah Nur Zahirah">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Sebab Pertukaran / Status <span class="text-danger">*</span></label>
+                        <textarea id="archiveSebab" class="form-control" rows="3" placeholder="Sebab wajib dinyatakan secara spesifik..." required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-warning fw-semibold" onclick="sahkanArchive()">Sahkan Pertukaran</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PERMANENT DELETE (ADMIN ONLY) -->
+    <div class="modal fade" id="modalPermanentDelete" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-danger">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title"><i class="fa-solid fa-triangle-exclamation me-2"></i> Pemadaman Rekod Fizikal (Permanently Delete)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger mb-3" role="alert">
+                        <strong>AMARAN:</strong> Tindakan ini tidak boleh dibuat asal (Undone). Hanya untuk rekod ujian/duplikasi.
+                    </div>
+                    <p>Adakah anda pasti mahu memadam rekod anggota berikut secara kekal?</p>
+                    <div class="p-3 bg-light rounded border mb-3">
+                        <strong class="d-block" id="deleteIDDisplay">ID: -</strong>
+                        <span id="deleteNamaDisplay">Nama: -</span>
+                    </div>
+                    <input type="hidden" id="deleteIDAnggota">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Sebab Pemadaman Kekal <span class="text-danger">*</span></label>
+                        <textarea id="deleteSebab" class="form-control" rows="3" placeholder="Nyatakan sebab seperti 'Duplicate Record' atau 'Data Ujian'..." required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" onclick="sahkanPemadamanKekal()">Padam Kekal Sekarang</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 & FontAwesome JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dynamicFields.js"></script>
+    <script src="js/staff.js"></script>
+</body>
+</html>
